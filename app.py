@@ -158,4 +158,11 @@ def invoice_pdf(order_id):
     return send_file(buffer, as_attachment=True, download_name=f"invoice_{order.order_number}.pdf", mimetype='application/pdf')
 
 if __name__ == "__main__":
+    @app.route("/create_admin")
+def create_admin():
+    user = User(username="admin", password="1234")
+    db.session.add(user)
+    db.session.commit()
+    return "Admin user created!"
+
     app.run(host="0.0.0.0", port=5000)
