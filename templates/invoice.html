@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>فاتورة القياسات</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="box">
+    <h2>فاتورة قياسات الثياب</h2>
+
+    <p><strong>رقم الطلب:</strong> {{ order.order_number }}</p>
+    <p><strong>الموظف:</strong> {{ order.employee }}</p>
+    <p><strong>نوع العمل:</strong> {{ order.work_type }}</p>
+    <p><strong>الفرع:</strong> {{ order.branch }}</p>
+    <p><strong>الكمية:</strong> {{ order.quantity }}</p>
+    <p><strong>تاريخ التفصيل:</strong> {{ order.start_date }}</p>
+    <p><strong>تاريخ التسليم:</strong> {{ order.end_date }}</p>
+    <p><strong>كود العميل:</strong> {{ order.client_code }}</p>
+    <p><strong>اسم العميل:</strong> {{ order.client_name }}</p>
+    <p><strong>الجوال:</strong> {{ order.phone }}</p>
+    <p><strong>ملاحظات:</strong> {{ order.notes }}</p>
+
+    <h3>القياسات</h3>
+    <ul>
+        {% for m in measurements %}
+            <li>قياس {{ m.index }}: {{ m.value }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>القماش</h3>
+    <p><strong>نوع القماش:</strong> {{ order.fabric_type }}</p>
+    <p><strong>اللون:</strong> {{ order.color }}</p>
+    <p><strong>ملاحظات القماش:</strong> {{ order.fabric_notes }}</p>
+
+    {% if order.fabric_image %}
+        <p><strong>صورة القماش:</strong></p>
+        <img src="{{ url_for('static', filename='uploads/' + order.fabric_image) }}" style="max-width:200px;">
+    {% endif %}
+
+    <a href="{{ url_for('invoice_pdf', order_id=order.id) }}" target="_blank">تحميل الفاتورة PDF</a>
+</div>
+</body>
+</html>
