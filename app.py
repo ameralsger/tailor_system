@@ -164,5 +164,4 @@ def create_admin():
     db.session.add(user)
     db.session.commit()
     return "Admin user created!"
-
     app.run(host="0.0.0.0", port=5000)
