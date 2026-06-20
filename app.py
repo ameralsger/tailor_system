@@ -14,6 +14,8 @@ app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
 
 db = SQLAlchemy(app)
 
+# ========================= MODELS =========================
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
@@ -44,8 +46,19 @@ class Measurement(db.Model):
     index = db.Column(db.Integer)
     value = db.Column(db.String(20))
 
+# ========================= HELPERS =========================
+
 def generate_order_number():
     return f"ORD-{random.randint(10000,99999)}"
+
+# ========================= ROUTES =========================
+
+@app.route("/create_admin")
+def create_admin():
+    user = User(username="admin", password="1234")
+    db.session.add(user)
+    db.session.commit()
+    return "Admin user created!"
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -156,14 +169,6 @@ def invoice_pdf(order_id):
     buffer.seek(0)
 
     return send_file(buffer, as_attachment=True, download_name=f"invoice_{order.order_number}.pdf", mimetype='application/pdf')
-
-if __name__ == "__main__":
-    @app.route("/create_admin")
-def create_admin():
-    user = User(username="admin", password="1234")
-    db.session.add(user)
-    db.session.commit()
-    return "Admin user created!"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
