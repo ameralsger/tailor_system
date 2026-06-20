@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>برنامج قياسات الثياب</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="box">
+    <h2>إدخال قياسات العميل</h2>
+    <a href="{{ url_for('logout') }}">تسجيل الخروج</a>
+
+    <form action="{{ url_for('save') }}" method="POST" enctype="multipart/form-data">
+
+        <h3>بيانات العميل</h3>
+        <input name="employee" placeholder="اسم الموظف">
+        <input name="work_type" placeholder="نوع العمل">
+        <input name="branch" placeholder="الفرع">
+        <input name="quantity" placeholder="الكمية" type="number">
+        <input name="start_date" placeholder="تاريخ التفصيل">
+        <input name="end_date" placeholder="تاريخ التسليم">
+        <input name="client_code" placeholder="كود العميل">
+        <input name="client_name" placeholder="اسم العميل">
+        <input name="phone" placeholder="رقم الجوال">
+        <input name="notes" placeholder="ملاحظات">
+
+        <h3>القياسات</h3>
+        {% for i in range(1,20) %}
+            <input name="m{{ i }}" placeholder="قياس {{ i }}">
+        {% endfor %}
+
+        <h3>القماش</h3>
+        <input name="fabric_type" placeholder="نوع القماش">
+        <input name="color" placeholder="اللون">
+        <input name="fabric_notes" placeholder="ملاحظات القماش">
+        <label>صورة القماش:</label>
+        <input type="file" name="fabric_image">
+
+        <button type="submit">حفظ الفاتورة</button>
+    </form>
+</div>
+</body>
+</html>
